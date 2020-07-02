@@ -1,0 +1,93 @@
+#include <iostream>
+using namespace std;
+#define N 8
+#define E 10
+int G[N][N];
+int Gnode[10][2] = {{1,2}, {1,3}, {2,4}, {2,5}, {3,6}, {3,7}, {4,8}, {5,8}, {6,8}, {7,8}};
+int Visited[N];
+int R, C, i;
+
+class fun
+{
+	public:
+	void CreatGraph();
+	void DFS(int);
+};
+
+int main() {
+	// your code goes here
+	fun obj;
+	int Rnode;
+	
+	for(int i = 0; i < N; i++)
+	{
+		Visited[i] = 0;
+	}
+	
+	for(R = 0; R < N; R++)
+	{
+		for(C = 0; C < N; C++)
+		{
+			G[R][C] = 0;
+		}
+	}
+	
+	for(R = 0; R < E; R++)
+	{
+		Rnode = Gnode[R][0] - 1;
+		for(C = 0; C < 2; C++)
+		{
+			G[Rnode][Gnode[R][C] - 1] = 1;
+		}
+	}
+	
+		for(R = 0; R < E; R++)
+	{
+		Rnode = Gnode[R][1] - 1;
+		for(C = 0; C < 2; C++)
+		{
+			G[Rnode][Gnode[R][C] - 1] = 1;
+		}
+	}
+	
+	for(R = 0; R < E; R++)
+	{
+		for(C = 0; C < N; C++)
+		{
+			if(R == C)
+			G[R][C] = 0;
+		}
+	}
+	
+	obj.CreatGraph();
+	
+	obj.DFS(0);
+	
+	system("PAUSE");
+	return 0;
+}
+
+void fun::CreatGraph()
+{
+	for(R = 0; R < N; R++)
+	{
+		for(C = 0; C < N; C++)
+		{
+			cout<<" "<<G[R][C];
+		}
+		cout<<"\n";
+	}
+}
+
+void fun::DFS(int i)
+{
+	Visited[i] = 1;
+	cout<<" v"<<i + 1;
+	
+	for(int j = 0; j < N; j++)
+	{
+		if(G[i][j] == 1)
+			if(Visited[j] != 1)
+				DFS(j);
+	}
+}
